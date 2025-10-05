@@ -29,6 +29,7 @@ jobs:
         run: |
           doxygen docs/Doxyfile
           sed -i 's/\\pdfminorversion=.*$/%&/' docs/latex/refman.tex
+          sed -i 's/\\pdfsuppresswarningpagegroup=.*$/%&/' docs/latex/refman.tex
           make -C docs/latex
 
       # 4. Upload PDF as artifact
