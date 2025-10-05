@@ -21,23 +21,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y doxygen graphviz \
           texlive-latex-base texlive-latex-extra \
-          texlive-fonts-recommended texlive-xetex
+          texlive-fonts-recommended
 
       # 3. Build Doxygen docs
       - name: Build Doxygen
         working-directory: .
         run: |
           doxygen docs/Doxyfile
-          sed -i 's/\\pdfminorversion=.*$/%&/' docs/latex/refman.tex
-          sed -i 's/\\pdfsuppresswarningpagegroup=.*$/%&/' docs/latex/refman.tex
-          make -C docs/latex
 
       # 4. Upload PDF as artifact
       - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
-          name: i18n-docs-pdf
-          path: docs/latex/refman.pdf
+          name: latex
+          path: docs/latex
 
       # 5. Publish HTML to GitHub Pages
       - name: Publish to GitHub Pages
