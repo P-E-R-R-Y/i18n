@@ -2,9 +2,8 @@ name: Build & Publish Docs
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:   # allow manual run
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   docs:
