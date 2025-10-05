@@ -3,12 +3,18 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-05
+ * 
+ * @example LocaleES.hpp
+ * @{
  */
 
 #pragma once
 
 #include "DefaultLocale.hpp"
 
+/**
+ * @ingroup Example
+ */
 class LocaleEs: public DefaultLocale {
     public:
         const std::string languageCode() const override { return "es"; }

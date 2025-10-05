@@ -1,7 +1,17 @@
+/**
+ * @file TestI18n.cpp
+ * @author Perry Chouteau (perry.chouteau@outlook.com)
+ * @brief 
+ * @date 2025-10-05
+ * 
+ * @example TestI18n.cpp
+ * @{
+ */
+
 #include "gtest/gtest.h"
 #include "I18n.hpp" 
 #include "SupportedLocales.hpp"
-#include "systemCode.hpp"
+#include "SystemCode.hpp"
 
 #if defined(__APPLE__)
     #include <CoreFoundation/CoreFoundation.h>

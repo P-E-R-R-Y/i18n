@@ -1,3 +1,15 @@
+/**
+ * @file SystemCode.hpp
+ * @author Perry Chouteau (perry.chouteau@outlook.com)
+ * @brief 
+ * @date 2025-10-05
+ * 
+ * @example SystemCode.hpp
+ * @{
+ * 
+ * @see TestI18n.cpp
+ */
+
 #include <string>
 
 #if defined(__APPLE__)

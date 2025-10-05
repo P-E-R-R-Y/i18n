@@ -1,0 +1,45 @@
+name: Build & Publish Docs
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:   # allow manual run
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Install dependencies
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz texlive-latex-base texlive-latex-extra texlive-fonts-recommended
+
+      # 3. Build Doxygen docs
+      - name: Build Doxygen
+        working-directory: .
+        run: |
+          doxygen docs/Doxyfile
+          make -C docs/latex
+
+      # 4. Upload PDF as artifact
+      - name: Upload PDF
+        uses: actions/upload-artifact@v3
+        with:
+          name: i18n-docs-pdf
+          path: docs/latex/refman.pdf
+
+      # 5. Publish HTML to GitHub Pages
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/html
+          force_orphan: true
+          commit_message: "Update Pdf + gh-pages $(date +'%Y-%m-%d %S:%M:%H') ${{ github.sha }}"

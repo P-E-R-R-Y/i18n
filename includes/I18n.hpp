@@ -17,7 +17,7 @@
  *
  * Primary template: defaults to false.
  *
- * @tparam T
+ * @tparam T any
  * 
  * @see is_tuple<std::tuple<Args...>> Partial specialization for actual tuples
  * @see IsTuple Concept wrapper for template constraints
@@ -31,7 +31,7 @@ struct is_tuple : std::false_type {};
  * Partial specialization for `std::tuple<Args...>`.
  * Sets `value = true` for any tuple type.
  *
- * @tparam ... Args
+ * @tparam ...Args are parameter from Tuple
  * 
  * @see is_tuple<T> Primary template
  * @see IsTuple Concept wrapper for template constraints
@@ -40,21 +40,21 @@ template <typename... Args>
 struct is_tuple<std::tuple<Args...>> : std::true_type {};
 
 /**
- * @brief 
+ * @brief Using is_tuple specialisation this concept verify if it's a tuple
  * 
- * @tparam U
+ * @tparam T is the type to check
  * 
  * @see is_tuple<T> Primary template
  * @see is_tuple<std::tuple<Args...>> Partial specialization
  */
-template <typename U>
-concept IsTuple = is_tuple<U>::value;
+template <typename T>
+concept IsTuple = is_tuple<T>::value;
 
 /**
- * @brief DerivedFrom is accept supportedLocal class only  
+ * @brief DerivedFrom is accept supportedLocal class only
  * 
- * @tparam Base
- * @tparam Derived
+ * @tparam Base is the parent
+ * @tparam Derived is the child
  */
 template <typename Base, typename Derived>
 concept DerivedFrom = std::derived_from<Base, Derived>;

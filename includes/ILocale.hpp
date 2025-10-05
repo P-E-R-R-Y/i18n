@@ -55,7 +55,7 @@ public:
  *
  * Ensures that a type derives from `ILocale` and can be used in the I18n system.
  *
- * @tparam T The type to check.
+ * @tparam T must be derived from ILocale
  *
  * @see ILocale
  * @see I18n
