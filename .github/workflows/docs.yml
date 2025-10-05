@@ -28,8 +28,8 @@ jobs:
         working-directory: .
         run: |
           doxygen docs/Doxyfile
-          cd docs/latex
-          make
+          sed -i 's/\\pdfminorversion=.*$/%&/' docs/latex/refman.tex
+          make -C docs/latex
 
       # 4. Upload PDF as artifact
       - name: Upload PDF
