@@ -28,12 +28,12 @@ jobs:
         run: |
           doxygen docs/Doxyfile
 
-      # 4. Upload PDF as artifact
+      # 4. Upload latex as artifact
       - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
           name: latex
-          path: docs/latex
+          path: docs/latex/*
 
       # 5. Publish HTML to GitHub Pages
       - name: Publish to GitHub Pages
