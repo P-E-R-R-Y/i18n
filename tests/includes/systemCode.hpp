@@ -10,6 +10,8 @@
  * @see TestI18n.cpp
  */
 
+#pragma once
+
 #include <string>
 
 #if defined(__APPLE__)
