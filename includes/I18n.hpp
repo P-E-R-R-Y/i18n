@@ -12,32 +12,78 @@
 
 #include "ILocale.hpp"
 
-//i18n
+/**
+ * @brief Trait to detect whether a type is a `std::tuple`.
+ *
+ * Primary template: defaults to false.
+ *
+ * @tparam T
+ * 
+ * @see is_tuple<std::tuple<Args...>> Partial specialization for actual tuples
+ * @see IsTuple Concept wrapper for template constraints
+ */
 template <typename T>
 struct is_tuple : std::false_type {};
 
+/**
+ * @brief Trait to detect whether a type is a `std::tuple`.
+ *
+ * Partial specialization for `std::tuple<Args...>`.
+ * Sets `value = true` for any tuple type.
+ *
+ * @tparam ... Args
+ * 
+ * @see is_tuple<T> Primary template
+ * @see IsTuple Concept wrapper for template constraints
+ */
 template <typename... Args>
 struct is_tuple<std::tuple<Args...>> : std::true_type {};
 
+/**
+ * @brief 
+ * 
+ * @tparam U
+ * 
+ * @see is_tuple<T> Primary template
+ * @see is_tuple<std::tuple<Args...>> Partial specialization
+ */
 template <typename U>
 concept IsTuple = is_tuple<U>::value;
 
-// Global scope / namespace
+/**
+ * @brief DerivedFrom is accept supportedLocal class only  
+ * 
+ * @tparam Base
+ * @tparam Derived
+ */
 template <typename Base, typename Derived>
 concept DerivedFrom = std::derived_from<Base, Derived>;
 
+/**
+ * @brief Internationalization manager for a specific locale type.
+ *
+ * Handles the registration of supported locales, selection of the current locale,
+ * and retrieval of localized data at runtime. Implements a singleton pattern
+ * so there is only one instance per template type.
+ *
+ * @tparam T The base locale interface type that all supported locales must derive from.
+ */
 template<LocaleInterface T>
 class I18n {
-    
+
     public:
 
-        // Singleton access
+        /**
+         * @brief Get the I18n singleton instance.
+         *
+         * @return I18n<T>& Reference to the single instance.
+         */
         static I18n<T>& getInstance() {
             static I18n<T> instance;
             
             return instance;
         }
-        // 
+
         /**
          * @brief delete Copy constructor
          */
@@ -49,9 +95,16 @@ class I18n {
         I18n& operator=(const I18n&) = delete;
 
         /**
-         * @brief Set a list of Supported Locales
+         * @brief Register a list of supported locales using template parameter pack.
          * 
-         * @tparam T_Child
+         * Each type must derive from `T` and be default-constructible.
+         * Sets the default locale if no locale was previously selected.
+         * @see DerivedFrom
+         * 
+         * @tparam T_Child Variadic list of locale types to register.
+         * 
+         * @see setSupportedLocales(T_Tuple)
+         * @see setSupportedLocale<T_Child>()
          */
         template <DerivedFrom<T>... T_Child>
         void setSupportedLocales() {
@@ -62,9 +115,15 @@ class I18n {
         }
 
         /**
-         * @brief Set a tuple of Supported Locales
+         * @brief Register supported locales using a std::tuple of types.
          * 
-         * @tparam T_Tuple 
+         * Each type must derive from `T` and be default-constructible.
+         * Sets the default locale if no locale was previously selected.
+         * 
+         * @tparam T_Child Variadic list of locale types to register.
+         * 
+         * @see setSupportedLocales(T_Tuple)
+         * @see setSupportedLocale<T_Child>()
          */
         template <IsTuple T_Tuple>
         void setSupportedLocales() {
@@ -77,8 +136,12 @@ class I18n {
         }
 
         /**
-         * @brief Set a Default Locale
-         * 
+         * @brief Sets the default locale to use if no other locale is selected.
+         *
+         * Priority:
+         * 1. System locale (if available)
+         * 2. English ("en") fallback
+         * 3. First locale accessible.
          */
         void setDefault() {
             if (_supportedLocales.empty())
@@ -93,9 +156,10 @@ class I18n {
         }
 
         /**
-         * @brief Set the Locale
-         * 
-         * @param key 
+         * @brief Select a specific locale by code.
+         *
+         * @param code Two-letter language code (e.g., "en", "fr").
+         * @return true if the locale was found and selected; false otherwise.
          */
         bool setLocale(const std::string& code) {
             auto it = _supportedLocales.find(code);
@@ -108,9 +172,9 @@ class I18n {
         }
         
         /**
-         * @brief Get the Locale
-         * 
-         * @return T* 
+         * @brief Get the currently selected locale instance.
+         *
+         * @return T* Pointer to the current locale. nullptr if none selected.
          */
         T* getLocale() const {
             return _locale;
@@ -123,14 +187,19 @@ class I18n {
 
     private:
         /**
-         * @brief Construct a new I18n
+         * @brief Private constructor initializes the system code.
          */
         I18n() {
             setSystemCode();
         }
 
         /**
-         * @brief Set the System Code object
+         * @brief Detect and store the system default locale code.
+         *
+         * Uses platform-specific APIs:
+         * - macOS: CoreFoundation CFLocale
+         * - Linux/Unix: std::locale
+         * - Other: defaults to "en"
          */
         void setSystemCode() {
              #if defined(__APPLE__)
@@ -158,9 +227,12 @@ class I18n {
         }
 
         /**
-         * @brief Set a Supported Locale
-         * 
-         * @tparam T_Child 
+         * @brief Register a single locale type.
+         *
+         * @tparam T_Child Locale type derived from `T`. Must be default-constructible.
+         *
+         * @see setSupportedLocales(T_Child...)
+         * @see setSupportedLocales(T_Tuple)
          */
         template <DerivedFrom<T> T_Child>
         void setSupportedLocale() {
