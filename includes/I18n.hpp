@@ -1,3 +1,10 @@
+/**
+ * @file I18n.hpp
+ * @author Perry Chouteau (perry.chouteau@outlook.com)
+ * @brief 
+ * @date 2025-10-06
+ */
+
 #pragma once
 
 #include <string>
