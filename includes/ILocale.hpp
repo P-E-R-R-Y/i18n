@@ -13,11 +13,7 @@
 //locale
 class ILocale {
 public:
-    // --- Méthodes de base (string_view pour la performance) ---
     virtual const std::string languageCode() const = 0;
-    
-    // --- Méthode pour les Pluriels / Variables ---
-    // Elle prend des arguments et retourne un std::string (nécessaire car c'est une chaîne dynamique)
 
     virtual ~ILocale() = default;
 };

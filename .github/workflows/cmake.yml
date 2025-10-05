@@ -1,0 +1,31 @@
+name: CMake Build & Test (French Locale)
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake g++ locales
+          sudo locale-gen fr_FR.UTF-8
+          sudo update-locale LANG=fr_FR.UTF-8
+
+      - name: Configure project
+        run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build project
+        run: cmake --build build
+
+      - name: Run tests
+        working-directory: build
+        env:
+          LANG: fr_FR.UTF-8
+          LC_ALL: fr_FR.UTF-8
+        run: ctest --output-on-failure

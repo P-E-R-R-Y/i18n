@@ -1,0 +1,19 @@
+/**
+ * @file ConfigLocale.hpp
+ * @author Perry Chouteau (perry.chouteau@outlook.com)
+ * @brief 
+ * @date 2025-10-05
+ */
+
+#pragma once
+
+    #include <tuple>
+
+    #include "DefaultLocale.hpp"
+
+    #include "LocaleEN.hpp"
+    #include "LocaleES.hpp"
+    #include "LocaleFR.hpp"
+    #include "LocaleIT.hpp"
+
+using SupportedLocales = std::tuple<LocaleEn, LocaleEs, LocaleFr, LocaleIt>;

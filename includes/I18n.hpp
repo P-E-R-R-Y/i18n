@@ -24,7 +24,7 @@ concept IsTuple = is_tuple<U>::value;
 
 // Global scope / namespace
 template <typename Base, typename Derived>
-concept LocaleImplementation = std::derived_from<Base, Derived>;
+concept DerivedFrom = std::derived_from<Base, Derived>;
 
 template<LocaleInterface T>
 class I18n {
@@ -53,7 +53,7 @@ class I18n {
          * 
          * @tparam T_Child
          */
-        template <LocaleImplementation<T>... T_Child>
+        template <DerivedFrom<T>... T_Child>
         void setSupportedLocales() {
             // Uses a pack expansion to call injectLocale<T_Locale>() for every type in the parameter pack.
             (this->setSupportedLocale<T_Child>(), ...); 
@@ -152,9 +152,9 @@ class I18n {
                     if (!name.empty() && name != "C" && name != "POSIX")
                         _systemCode = name.substr(0, 2);
                 } catch (...) {}
+            #else
+                _systemCode = "en"; // fallback for other platforms
             #endif
-
-            _systemCode = "en"; // fallback for other platforms
         }
 
         /**
@@ -162,7 +162,7 @@ class I18n {
          * 
          * @tparam T_Child 
          */
-        template <LocaleImplementation<T> T_Child>
+        template <DerivedFrom<T> T_Child>
         void setSupportedLocale() {
             auto newInstance = std::make_unique<T_Child>();
             std::string key = newInstance->languageCode();
