@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write  # ✅ allow the bot to push to gh-pages
+
 jobs:
   docs:
     runs-on: ubuntu-latest
