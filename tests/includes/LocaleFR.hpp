@@ -1,5 +1,5 @@
 /**
- * @file FranceLocale.hpp
+ * @file LocaleFR.hpp
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-05

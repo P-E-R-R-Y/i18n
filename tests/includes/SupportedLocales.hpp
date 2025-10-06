@@ -4,7 +4,7 @@
  * @brief 
  * @date 2025-10-05
  * 
- * @example Locale
+ * @example SupportedLocales.hpp
  * @{
  */
 

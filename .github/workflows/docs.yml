@@ -16,6 +16,8 @@ jobs:
       # 1. Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # 2. Install dependencies
       - name: Install dependencies
@@ -25,24 +27,42 @@ jobs:
           texlive-latex-base texlive-latex-extra \
           texlive-fonts-recommended
 
-      # 3. Build Doxygen docs
-      - name: Build Doxygen
-        working-directory: .
+      # 3. Setup /tmp/ Folder
+      - name: Setup /tmp/ folder
         run: |
-          doxygen docs/Doxyfile
+          mkdir -p /tmp/docs/html /tmp/docs/latex
+          mv docs/index.html /tmp/docs/html
 
-      # 4. Upload latex as artifact
-      - name: Upload PDF
+      # 4. Generate docs for main (C++20)
+      - name: Build Doxygen (C++20)
+        run: |
+          git checkout main
+          doxygen docs/Doxyfile
+          mv docs/html /tmp/docs/html/cpp20-support
+          mv docs/latex /tmp/docs/latex/cpp20-support
+
+      # 5. Generate docs cpp11-support (C++11)
+      - name: Build Doxygen (C++11)
+        run: |
+          git checkout cpp11-support
+          doxygen docs/Doxyfile
+          mv docs/html /tmp/docs/html/cpp11-support
+          mv docs/latex /tmp/docs/latex/cpp11-support
+
+      # 6. Upload latex artifacts
+      - name: Upload latex artifacts
         uses: actions/upload-artifact@v4
         with:
           name: latex
-          path: docs/latex/*
+          path: |
+            /tmp/docs/latex/cpp20-support
+            /tmp/docs/latex/cpp11-support
 
-      # 5. Publish HTML to GitHub Pages
+      # 7. Publish HTML(s) to GitHub Pages
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/html
+          publish_dir: /tmp/docs/html
           force_orphan: true
           commit_message: "Update Pdf + gh-pages $(date +'%Y-%m-%d %S:%M:%H') ${{ github.sha }}"
