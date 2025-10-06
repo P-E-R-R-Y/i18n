@@ -1,5 +1,6 @@
 # 🌍 P-E-R-R-Y i18n  
 *A modern C++20 internationalization (i18n) library.*
+*A legacy C++11 internationalization (i18n) library.*
 
 [![Build](https://github.com/P-E-R-R-Y/i18n/actions/workflows/cmake.yml/badge.svg)](https://github.com/P-E-R-R-Y/i18n/actions)
 [![Docs](https://img.shields.io/badge/docs-doxygen-blue.svg)](https:/P-E-R-R-Y.github.io/i18n/)
