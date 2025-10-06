@@ -48,14 +48,14 @@ public:
 };
 
 // Define concrete implementations
-class EnLocale : public DefaultLocale {
+class LocaleEn : public DefaultLocale {
 public:
     const std::string languageCode() const override { return "en"; }
     const std::string getSignUpTitle() const override { return "Sign Up"; }
     const std::string getSignInTitle() const override { return "Sign In"; }
 };
 
-class FrLocale : public DefaultLocale {
+class LocaleFr : public DefaultLocale {
 public:
     const std::string languageCode() const override { return "fr"; }
     const std::string getSignUpTitle() const override { return "Inscription"; }
@@ -69,7 +69,7 @@ int main() {
     auto& i18n = I18n<DefaultLocale>::getInstance();
 
     i18n.setSupportedLocales<SupportedLocales>();
-    //cpp `i18n.setSupportedLocales<FrLocale, EnLocale>();`
+    //cpp `i18n.setSupportedLocales<LocaleEn, LocaleFr>();`
 
     //set Locale over the default one -> 1st: system, 2nd: "en", 3rd: 1st_one
     i18n.setLocale("en");

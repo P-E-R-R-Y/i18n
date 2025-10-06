@@ -1,10 +1,10 @@
 /**
- * @file ItalianLocale.hpp
+ * @file LocaleIT.hpp
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-05
  * 
- * @example Locale
+ * @example LocaleIT.hpp
  * @{
  */
 
