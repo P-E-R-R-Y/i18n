@@ -1,16 +1,20 @@
 # 🌍 P-E-R-R-Y i18n  
-*A modern C++20 internationalization (i18n) library.*
-*A legacy C++11 internationalization (i18n) library.*
+
+A modern
+internationalization (i18n) library.
 
 [![Build](https://github.com/P-E-R-R-Y/i18n/actions/workflows/cmake.yml/badge.svg)](https://github.com/P-E-R-R-Y/i18n/actions)
-[![Docs](https://img.shields.io/badge/docs-doxygen-blue.svg)](https:/P-E-R-R-Y.github.io/i18n/)
+[![Docs](https://img.shields.io/badge/docs-doxygen-blue.svg)](https://p-e-r-r-y.github.io/i18n)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
 
 ## ✨ Overview
 
-`P-E-R-R-Y i18n` is a lightweight, **header-only** C++20 library for internationalization.  
+`P-E-R-R-Y i18n` is a lightweight, **header-only** 
+[![C++11](https://img.shields.io/badge/C%2B%2B-11-orange.svg)]()
+[![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)]()
+library for internationalization.  
 It provides a clean, type-safe way to define and switch between language locales at runtime.
 
 Core goals:
