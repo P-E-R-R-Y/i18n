@@ -94,16 +94,27 @@ struct is_tuple<std::tuple<Args...>> : std::true_type {};
 
 
 /**
- * @brief Index sequence
+ * @brief Base Type to represent a sequence of compile time indice
  * 
- * @tparam I 
+ * @tparam list of int
  */
 template <std::size_t... I>
 struct index_sequence {};
 
+/**
+ * @brief recursive template to generate the sequence
+ * 
+ * @tparam N 
+ * @tparam I 
+ */
 template <std::size_t N, std::size_t... I>
 struct make_index_sequence_impl : make_index_sequence_impl<N - 1, N - 1, I...> {};
 
+/**
+ * @brief when N = 0, stop recursion and define the type alias
+ * 
+ * @tparam I 
+ */
 template <std::size_t... I>
 struct make_index_sequence_impl<0, I...> {
     typedef index_sequence<I...> type;

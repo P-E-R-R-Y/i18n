@@ -19,6 +19,7 @@
     #include <locale>
 #endif
 
+// Test 1: Take systemLocale (ci use FR) + (variadic_locales)
 TEST(I18nTest, DefaultLocaleSystem_1) {
     auto& i18n = I18n<DefaultLocale>::getInstance();
 
@@ -30,6 +31,7 @@ TEST(I18nTest, DefaultLocaleSystem_1) {
     EXPECT_EQ(current->languageCode(), getSystemCode()) << "Default locale should be the first injected ('en').";
 }
 
+// Test 2: If no systemLocale take 'en' + (variadic_locales)
 TEST(I18nTest, DefautLocaleEn_2) {
     auto& i18n = I18n<DefaultLocale>::getInstance();
 
@@ -41,6 +43,7 @@ TEST(I18nTest, DefautLocaleEn_2) {
     EXPECT_EQ(current->languageCode(), "en") << "Default locale should be the first injected ('en').";
 }
 
+// Test 3: If no systemLocale & No 'en' take first found (variadic_locales)
 TEST(I18nTest, DefaultLocaleFirst_3) {
     auto& i18n = I18n<DefaultLocale>::getInstance();
 
@@ -54,6 +57,7 @@ TEST(I18nTest, DefaultLocaleFirst_3) {
     EXPECT_EQ(current->getButtonCancel(), "Cancelar");
 }
 
+// Test 4: Set with tuples Locale to 'fr' and usage. + (tuple)
 TEST(I18nTest, SetupLocaleFr_4) {
     auto& i18n = I18n<DefaultLocale>::getInstance();
 

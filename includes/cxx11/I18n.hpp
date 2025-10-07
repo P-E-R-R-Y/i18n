@@ -80,7 +80,7 @@ class I18n {
 
         /**
          * @brief Register supported locales using a std::tuple of types.
-         * * Each type must derive from `T` and be default-constructible.
+         * Each type must derive from `T` and be default-constructible.
          * Sets the default locale if no locale was previously selected.
          * * @tparam T_Tuple Variadic list of locale types to register.
          * * @see setSupportedLocales(T_Tuple)

@@ -20,7 +20,4 @@
     #include "LocaleFR.hpp"
     #include "LocaleIT.hpp"
 
-/**
- * @ingroup Example
- */
 using SupportedLocales = std::tuple<LocaleEn, LocaleEs, LocaleFr, LocaleIt>;
