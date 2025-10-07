@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cpp_version: [11, 14, 17, 23, 26]
 
     steps:
       - name: Checkout repository
@@ -19,13 +22,33 @@ jobs:
           sudo locale-gen fr_FR.UTF-8
           sudo update-locale LANG=fr_FR.UTF-8
 
-      - name: Configure project
+      # ------------------------------
+      # Default build (C++20)
+      # ------------------------------
+      - name: Configure project (C++20)
         run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
 
-      - name: Build project
-        run: cmake --build build
+      - name: Build project (C++20)
+        run: cmake --build build --clean-first
 
-      - name: Run tests
+      - name: Run tests (C++20)
+        working-directory: build
+        env:
+          LANG: fr_FR.UTF-8
+          LC_ALL: fr_FR.UTF-8
+        run: ctest --output-on-failure
+
+      # ------------------------------
+      # C++{{ matrix.cpp_version }} build
+      # ------------------------------
+      - name: Configure project (C++${{ matrix.cpp_version }})
+        run: |
+          cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCXX_STANDARD=${{ matrix.cpp_version }}
+
+      - name: Build project (C++${{ matrix.cpp_version }})
+        run: cmake --build build --clean-first
+
+      - name: Run tests (C++${{ matrix.cpp_version }})
         working-directory: build
         env:
           LANG: fr_FR.UTF-8

@@ -11,6 +11,9 @@ permissions:
 jobs:
   docs:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cpp_version: [11, 20]
 
     steps:
       # 1. Checkout repo
@@ -33,36 +36,51 @@ jobs:
           mkdir -p /tmp/docs/html /tmp/docs/latex
           mv docs/index.html /tmp/docs/html
 
-      # 4. Generate docs for main (C++20)
-      - name: Build Doxygen (C++20)
+      # 4. Generate docs for main (C++${{ matrix.cpp_version }})
+      - name: Build Doxygen (C++${{ matrix.cpp_version }})
         run: |
-          git checkout main
-          doxygen docs/Doxyfile
-          mv docs/html /tmp/docs/html/cpp20-support
-          mv docs/latex /tmp/docs/latex/cpp20-support
+          doxygen docs/Doxyfile_cxx${{ matrix.cpp_version }}
+          mv docs/html /tmp/docs/html/cxx${{ matrix.cpp_version }}
+          mv docs/latex /tmp/docs/latex/cxx${{ matrix.cpp_version }}
 
-      # 5. Generate docs cpp11-support (C++11)
-      - name: Build Doxygen (C++11)
-        run: |
-          git checkout cpp11-support
-          doxygen docs/Doxyfile
-          mv docs/html /tmp/docs/html/cpp11-support
-          mv docs/latex /tmp/docs/latex/cpp11-support
-
-      # 6. Upload latex artifacts
-      - name: Upload latex artifacts
+      # 6. Upload docs artifacts
+      - name: Upload latex artifacts cxx${{ matrix.cpp_version }}
         uses: actions/upload-artifact@v4
         with:
-          name: latex
-          path: |
-            /tmp/docs/latex/cpp20-support
-            /tmp/docs/latex/cpp11-support
+          name: latex-cxx${{ matrix.cpp_version }}-support
+          path: /tmp/docs/latex/cxx${{ matrix.cpp_version }}
+     
+      - name: Upload html artifacts cxx${{ matrix.cpp_version }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-cxx${{ matrix.cpp_version }}-support
+          path: /tmp/docs/html/cxx${{ matrix.cpp_version }}
 
-      # 7. Publish HTML(s) to GitHub Pages
+  publish:
+    needs: docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1. Download all artifacts from previous matrix runs
+      - name: Download docs artifacts (C++11)
+        uses: actions/download-artifact@v4
+        with:
+          name: html-cxx11-support
+          path: /tmp/docs/html/cxx11
+
+      - name: Download docs artifacts (C++20)
+        uses: actions/download-artifact@v4
+        with:
+          name: html-cxx20-support
+          path: /tmp/docs/html/cxx20
+
+      # 2. Publish HTML(s) to GitHub Pages
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: /tmp/docs/html
           force_orphan: true
-          commit_message: "Update Pdf + gh-pages $(date +'%Y-%m-%d %S:%M:%H') ${{ github.sha }}"
+          commit_message: "Update gh-pages $(date +'%Y-%m-%d %S:%M:%H') ${{ github.sha }}"
