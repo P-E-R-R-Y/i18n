@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cpp_version: [11, 14, 17, 23, 26]
+        cpp_version: [11, 14, 17, 20, 23, 26]
 
     steps:
       - name: Checkout repository
@@ -23,27 +23,15 @@ jobs:
           sudo update-locale LANG=fr_FR.UTF-8
 
       # ------------------------------
-      # Default build (C++20)
-      # ------------------------------
-      - name: Configure project (C++20)
-        run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
-
-      - name: Build project (C++20)
-        run: cmake --build build --clean-first
-
-      - name: Run tests (C++20)
-        working-directory: build
-        env:
-          LANG: fr_FR.UTF-8
-          LC_ALL: fr_FR.UTF-8
-        run: ctest --output-on-failure
-
-      # ------------------------------
       # C++{{ matrix.cpp_version }} build
       # ------------------------------
       - name: Configure project (C++${{ matrix.cpp_version }})
         run: |
-          cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCXX_STANDARD=${{ matrix.cpp_version }}
+          if [ "${{ matrix.cpp_version }}" = "20" ]; then
+            cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+          else
+            cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCXX_STANDARD=${{ matrix.cpp_version }}
+          fi
 
       - name: Build project (C++${{ matrix.cpp_version }})
         run: cmake --build build --clean-first

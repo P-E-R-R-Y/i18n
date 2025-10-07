@@ -52,7 +52,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE ${COMMON_FLAGS})
 #----------- test -----------
 enable_testing()
 
-if(CXX_STANDARD LESS 17) ##Gtest cxx17 or higher required
+if(CXX11) ##Gtest cxx17 or higher required
   set(TEST_NAME ${PROJECT_NAME}_test_runner)
   file(GLOB TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tests/cxx11/Test*.cpp)
 else()
@@ -77,7 +77,7 @@ target_link_libraries(${TEST_NAME} PRIVATE
 
 target_compile_options(${TEST_NAME} PRIVATE ${COMMON_FLAGS})
 
-if(CXX_STANDARD LESS 17)
+if(CXX11)
   add_test(NAME run_i18n_tests COMMAND ${TEST_NAME})
 else()
   include(GoogleTest)
