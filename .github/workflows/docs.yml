@@ -31,8 +31,6 @@ jobs:
       - name: Build Doxygen
         run: |
           doxygen docs/Doxyfile
-          mv docs/html /tmp/docs/html
-          mv docs/latex /tmp/docs/latex
 
       # 4. Upload docs artifacts
       - name: Upload latex artifacts
