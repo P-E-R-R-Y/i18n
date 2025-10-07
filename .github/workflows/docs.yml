@@ -11,9 +11,6 @@ permissions:
 jobs:
   docs:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        cpp_version: [11, 20]
 
     steps:
       # 1. Checkout repo
@@ -30,63 +27,25 @@ jobs:
           texlive-latex-base texlive-latex-extra \
           texlive-fonts-recommended
 
-      # 3. Setup /tmp/ Folder
-      - name: Setup /tmp/ folder
+      # 3. Generate docs for main
+      - name: Build Doxygen
         run: |
-          mkdir -p /tmp/docs/html /tmp/docs/latex
-          mv docs/index.html /tmp/docs/html
+          doxygen docs/Doxyfile
+          mv docs/html /tmp/docs/html
+          mv docs/latex /tmp/docs/latex
 
-      # 4. Generate docs for main (C++${{ matrix.cpp_version }})
-      - name: Build Doxygen (C++${{ matrix.cpp_version }})
-        run: |
-          doxygen docs/Doxyfile_cxx${{ matrix.cpp_version }}
-          mv docs/html /tmp/docs/html/cxx${{ matrix.cpp_version }}
-          mv docs/latex /tmp/docs/latex/cxx${{ matrix.cpp_version }}
-
-      # 6. Upload docs artifacts
-      - name: Upload latex artifacts cxx${{ matrix.cpp_version }}
+      # 4. Upload docs artifacts
+      - name: Upload latex artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: latex-cxx${{ matrix.cpp_version }}-support
-          path: /tmp/docs/latex/cxx${{ matrix.cpp_version }}
-     
-      - name: Upload html artifacts cxx${{ matrix.cpp_version }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: html-cxx${{ matrix.cpp_version }}-support
-          path: /tmp/docs/html/cxx${{ matrix.cpp_version }}
+          name: latex
+          path: docs/latex
 
-  publish:
-    needs: docs
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # 3. Setup /tmp/ Folder
-      - name: Setup /tmp/ folder
-        run: |
-          mkdir -p /tmp/docs/html /tmp/docs/latex
-          mv docs/index.html /tmp/docs/html
-
-      # 1. Download all artifacts from previous matrix runs
-      - name: Download docs artifacts (C++11)
-        uses: actions/download-artifact@v4
-        with:
-          name: html-cxx11-support
-          path: /tmp/docs/html/cxx11
-
-      - name: Download docs artifacts (C++20)
-        uses: actions/download-artifact@v4
-        with:
-          name: html-cxx20-support
-          path: /tmp/docs/html/cxx20
-
-      # 2. Publish HTML(s) to GitHub Pages
+      # 5. Publish HTML(s) to GitHub Pages
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /tmp/docs/html
+          publish_dir: docs/html
           force_orphan: true
           commit_message: "Update gh-pages $(date +'%Y-%m-%d %S:%M:%H') ${{ github.sha }}"
