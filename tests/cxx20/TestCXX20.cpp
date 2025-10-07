@@ -1,10 +1,10 @@
 /**
- * @file TestI18n.cpp
+ * @file TestCXX20.cpp
  * @author Perry Chouteau (perry.chouteau@outlook.com)
- * @brief 
+ * @brief Simple C++20 unit test file using gtest to verify I18n functionality.
  * @date 2025-10-05
  * 
- * @example TestI18n.cpp
+ * @example TestCXX20.cpp
  * @{
  */
 

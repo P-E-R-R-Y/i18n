@@ -1,8 +1,11 @@
 /**
- * @file TestI18n.cpp
+ * @file TestCXX11.cpp
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief Simple C++11 unit test file using assert() to verify I18n functionality.
  * @date 2025-10-06
+ * 
+ * @example TestCXX11.cpp
+ * @{
  */
 
 #include <iostream>
