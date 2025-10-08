@@ -45,5 +45,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/html
+          publish_branch: gh-pages
           force_orphan: true
           commit_message: "Update gh-pages $(date +'%Y-%m-%d %S:%M:%H') ${{ github.sha }}"
