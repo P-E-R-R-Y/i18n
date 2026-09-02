@@ -1,3 +1,5 @@
 build
 html
 latex
+docs/html
+docs/latex
