@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-03
+ *
+ * @addtogroup i18n
+ * @{
  */
 
 #pragma once
@@ -61,4 +64,5 @@ public:
  * @see I18n
  */
 template <typename T>
-concept LocaleInterface = std::derived_from<T, ILocale>;
+concept LocaleInterface = std::derived_from<T, ILocale>;/** @} */
+

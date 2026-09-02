@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-06
+ *
+ * @addtogroup i18n
+ * @{
  */
 
 #pragma once
@@ -118,4 +121,5 @@ struct make_index_sequence_impl : make_index_sequence_impl<N - 1, N - 1, I...> {
 template <std::size_t... I>
 struct make_index_sequence_impl<0, I...> {
     typedef index_sequence<I...> type;
-};
+};/** @} */
+

@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-03
+ *
+ * @addtogroup i18n
+ * @{
  */
 
 #pragma once
@@ -47,4 +50,5 @@ public:
      * @brief Virtual destructor for proper cleanup of derived classes.
      */
     virtual ~ILocale() = default;
-};
+};/** @} */
+

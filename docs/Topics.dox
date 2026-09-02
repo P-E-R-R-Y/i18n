@@ -1,0 +1,7 @@
+/**
+ * @defgroup i18n i18n
+ *
+ * @brief Translation lookup, one catalogue per language.
+ *
+ * Two implementations behind the same surface : cxx11 and cxx20.
+ */

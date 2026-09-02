@@ -3,6 +3,9 @@
  * @author Perry Chouteau (perry.chouteau@outlook.com)
  * @brief 
  * @date 2025-10-06
+ *
+ * @addtogroup i18n
+ * @{
  */
 
 #pragma once
@@ -191,7 +194,8 @@ class I18n {
                 }
             #else
                 _systemCode = "en"; // fallback for other platforms
-            #endif
+
+#endif
         }
 
         /**
@@ -218,3 +222,5 @@ class I18n {
         }
 
 };
+
+/** @} */
