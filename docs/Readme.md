@@ -1,4 +1,6 @@
-# 🌍 P-E-R-R-Y i18n  
+# i18n
+
+🌍 **P-E-R-R-Y i18n**
 
 A modern
 internationalization (i18n) library.
